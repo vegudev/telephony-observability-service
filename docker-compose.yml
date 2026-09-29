@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  observability-service:
+    build: .
+    ports:
+      - "8002:8002"
+    environment:
+      - DATABASE_URL=sqlite:///./observability.db
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
